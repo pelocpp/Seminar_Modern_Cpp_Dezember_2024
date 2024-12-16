@@ -37,7 +37,9 @@ namespace ConstExprComplex {
         constexpr Complex c2{ 3.0, 3.0 };
 
         constexpr float r1 = c1.real();
+
         constexpr Complex c3 = c1 + c2;
+        
         constexpr float r2 = c3.real();
 
         // verify 'constness' with the help of disassembly and
@@ -58,7 +60,7 @@ namespace ConstExprDynamicData {
     static constexpr int naiveSum(unsigned int n)
     {
         auto ip = new int[n];
-        std::iota(ip, ip + n, 1);
+        std::iota(ip, ip + n, 1);   // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
         auto tmp = std::accumulate(ip, ip + n, 0);
         delete[] ip;
         return tmp;

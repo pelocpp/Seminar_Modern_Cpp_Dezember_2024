@@ -308,3 +308,23 @@ b) Rückgabetyp von Funktionen
 c) Als Typ von Parametern
 
 
+=====================================================
+
+Aufgaben:
+
+Aufgaben zur Move-Semantik:
+
+    Aufgabe 1
+
+
+Aufgaben zu Lambda:
+
+    Aufgabe 1
+
+    Aufgabe 3:  Quiz 1und  Quiz 2 sind einfach.
+
+    3 und 4 sind Stolperfallen.
+
+Aufgaben zu generische Lambda Funktionen:
+
+    Aufgabe 1

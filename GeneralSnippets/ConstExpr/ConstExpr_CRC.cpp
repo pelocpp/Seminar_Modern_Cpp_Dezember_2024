@@ -23,8 +23,8 @@ constexpr uint8_t MY_POLYNOM = 0x07;
 constexpr int TABLE_SIZE = 256;
 
 template<uint8_t POLYNOM>
-constexpr auto crcTable{
-    []() {
+constexpr auto crcTable {
+    [] () {
         std::array<uint8_t, TABLE_SIZE> A {};
         for (int i = 0; i < TABLE_SIZE; i++) {
             A[i] = i;
@@ -38,7 +38,7 @@ constexpr auto crcTable{
             }
         }
         return A;
-    }() 
+    } () 
 };
 
 static constexpr auto calcCRC(uint8_t len, const uint8_t* data) {
@@ -51,6 +51,19 @@ static constexpr auto calcCRC(uint8_t len, const uint8_t* data) {
 
 void main_constexpr_crc()
 {
+    []() {};
+    []  {};
+
+    []() {} ();
+
+    constexpr auto result = []() -> int { return 123; } ();
+
+
+
+
+
+
+
     constexpr uint8_t message[]{ "Hello World" };
     constexpr uint8_t checksum{ calcCRC(11, message) };
     std::cout << "Checksum is: " << std::hex << static_cast<int>(checksum) << std::endl;
