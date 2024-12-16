@@ -1,0 +1,310 @@
+==================================
+
+Modern C++
+
+Peter Loos
+
+Guten Morgen
+
+==================================
+
+C++/C (Pascal), Java, C#,  Android (Java), JavaScript
+
+Back-to-the-Roots: C++
+
+==================================
+
+2 Tools: 
+
+a) Visual Studio 2022 - Community Version
+
+b) Unterlagen:
+
+   https://github.com/pelocpp
+
+==================================
+
+Mo - Do:
+
+9.00 bis 17.00 Uhr
+
+Mittagspause: 12.30 
+
+== Übungen
+
+== 16.30 / 16.45
+
+==================================
+
+Was sind meine Erwartungen
+
+== Überblick
+== Muss ab nächster Woche C++ "modern" programmieren
+== Verständnis für die neuen Techniken
+== Was MUSS drin sein
+== Will C++ Quellcode nur lesen / verstehen können
+
+Hintergrund / "Confidence"
+
+Welche Aspekte sind wann nützlich?
+
+C++ ist eine schwierige Programmiersprache.
+
+==================================
+
+To be Done:
+
+noexcept    // Exception Safety
+
+==================================
+
+
+C++:   "Roter Faden"   // Struktur
+
+==>   Agenda
+
+==================================
+
+Verschiebe-Semantik (Move-Semantik)
+
+== RValue / LValue
+== Verschiebe-Semantik
+
+Parameter-Übergabe:
+
+i)  Kopie  -  nicht performant
+ii) Adresse eines Objekts
+
+sayHello(a + b);
+
+ a + b ist wie a ein normales std::string Objekt
+
+ a kann ich unter dem Namen "a" ansprechen
+
+ a + b ist ein temporäres Objekt
+
+ std::string tmp =  a + b;
+
+ Performanz: C++ 11  
+
+ Übergabe temporärer Objekte mit Adresse / keine Kopie !!!
+
+
+ std::string&:      LValue - Referenz
+ std::string&&:     RValue - Referenz
+
+ Why ?????????????? ===> Move-Semantik
+
+         Namensgebung: LValue stammt von C  // Left Value
+
+                       " a = b; "  a steht links vom dem = Zeichen
+
+                                   Interesse: Adresse
+
+                                   RValue   // Wert
+
+                                   b steht rechts vom dem = Zeichen
+
+                                   Interesse: Wert
+
+====================================================================
+
+Move-Semantik:
+
+... E60:   // tmp. Objekt  // wird freigegeben
+... D10:   // Objekt im Vektor
+
+Neu:
+
+... 100:
+
+====================================================================
+
+Refresher:
+
+== Kopier-Konstruktor
+== Wertzuweisungs-Operator (operator =)
+
+BigData bd;
+
+BigData bd1 = bd;
+
+a) Ja, geht / übersetzungsfähig !!!
+
+b) Wie ???  Es werden alle Variablen 1:1 umkopiert - auch Adressen !!!
+
+      Flache Kopie // Shallow Copy
+
+    Wenn diese nicht das tut, was notwendig ist:
+
+    Kopier-Konstruktor ergänzen:
+
+    BigData
+
+    BigData (const BigData& original); 
+
+https://github.com/pelocpp/cpp_introduction/blob/master/Cpp_Introduction/Markdown/RuleOfThree.md
+
+==> 2 Probleme:
+
+i ) Keine "echte" Kopie ==> Heap-Speicher
+
+ii) "doppelte delete"  ===> 
+
+===============================================================
+
+std::map <std::string, long>  // Definition
+
+Zugriff // Ein Element auf der Map rausholen wollen:
+
+   std::pair<const std::string, long>
+
+Ist eine Tabelle aus 
+
+Schlüssel / Wert-Paaren:
+
+Beispiel:
+
+Telefonbuch:
+
+Schlüssel (Key): "Hans"
+Wert (Value):    1231312 // 45645645
+
+std::map<std::string, long>
+
+Jedes einzelne Element:    std::pair<const std::string, long>
+
+==========================================
+
+    static auto sum(float f1, float f2)
+    {
+        return f1 + f2;
+    }
+
+
+// old, "classical" syntax
+std::string toString(int value);
+
+// new syntax with trailing return type
+auto toString(int value) -> std::string;
+
+
+Why ??????????????????
+???????????????????????????
+
+C++:
+  == strongly-typed
+  == objekt-orientiert
+
+  == GP 
+  == generic programming (templates)
+
+Inventor:  Bjarne Stroustrup  (C with Classes)
+
+Alexander Alexandrowitsch Stepanow: Generische Programierung (Templates)
+
+Bibliothek für C++:  STL  Standard Template Library
+
+Generische Programierung
+
+Metaprogramming:  Programmierung zur Übersetzungszeit.
+
+====================================================
+
+    static const std::string& getMessage()
+    {
+        std::string result("efwerwer");  // Lokales Objekt
+
+        return result;
+    }
+
+    ERROR: returning address of local variable or temporary : result
+
+
+class Contact
+{
+private:
+    std::string m_phoneHome;
+    std::string m_phoneOffice;
+
+public:
+    const std::string& getPhoneOffice ( return m_phoneOffice);
+}
+
+======================================================
+
+Initialisierung:  ( )  versus { }
+
+Jein :)
+
+======================================================
+
+Lambdas:
+
+a) Erklären  // zahlreiche Features
+
+b) Blick hinter die Kulissen
+
+Lambda-Objekte
+
+Wie ist es zu Lambdas gekommen ???
+
+Aufrufbares Objekt
+
+operator()
+
+operator+:   2 Operanden
+
+Wie wird in C++ eine Lambda-Funkion vom Compiler gesehen // umgesetzt:
+
+Als Instanz einer lokalen Klasse (versteckt),
+die den operator() implementiert.
+
+"Woher weißt da das ???"
+
+Tool  : Empfehlung
+
+Cpp Insights:
+
+Es ist eine Art "C++ nach C++" Konverter,
+um von "modernem" C++ eine Darstellung zu bekommen,
+wie der Compiler / wie die Sprache C++ moderne in vorhandene Konstrukte umsetzt.
+
+
+std::sort(vec.begin(), vec.end(), __lambda_11_13{});
+
+Hier sieht man:  Ein Lambda ist ein Objekt.
+
+Feature 1: Zugriff auf Variablen "außerhalb"
+
+Feature 2: Lambdas sind Objekte.
+
+   Was haben Objekte: Member-Variablen.
+
+
+JavaScript // C++:
+
+Lokale Variablen, die in einem Lambda verwendet werden:
+
+Closure  ===> (JavaScript) :  HEAP
+
+
+Letzte Frage:
+
+Von welchem Typ ist ein Lambda-Objekt:
+
+i)  Vom Typ der anonymen Klasse
+
+ii) std::function<>
+
+=====================================================
+
+auto: 
+
+a) Vereinbarung von Variablen
+
+b) Rückgabetyp von Funktionen
+
+c) Als Typ von Parametern
+
+
