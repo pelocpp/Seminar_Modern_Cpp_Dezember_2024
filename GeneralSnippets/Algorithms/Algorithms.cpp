@@ -10,8 +10,8 @@ module modern_cpp:algorithms;
 
 namespace Algorithms {
 
-    //static constexpr int Size = 100'000'000;  // release
-    static constexpr int Size = 10'000'000;     // debug
+    static constexpr int Size = 100'000'000;  // release
+   // static constexpr int Size = 10'000'000;     // debug
 
     // =================================================================================
     // Initialization with a constant value
@@ -21,12 +21,16 @@ namespace Algorithms {
     {
         std::println("Using a classic for-loop");
 
-        std::vector<double> values(Size);
-
         ScopedTimer watch{};
 
+        std::vector<double> values(Size);   // std::list // std::map
+       // std::list<double> values2(Size);
+
+
+
         for (size_t i{}; i != values.size(); ++i) {
-            values[i] = 123.0;
+            values[i] = 123.0;        // random access
+           //  values2[i] = 123.0;
         }
     }
 
@@ -34,22 +38,31 @@ namespace Algorithms {
     {
         std::println("Using an iterator-based for-loop");
 
-        std::vector<double> values(Size);
-
         ScopedTimer watch{};
+
+
+        std::vector<double> values(Size);
+      //  std::list<double> values2(Size);
+
 
         for (auto it{ values.begin() }; it != values.end(); ++it) {
             *it = 123.0;
         }
+
+        //for (auto it2{ values2.begin() }; it2 != values2.end(); ++it2) {
+        //    *it2 = 123.0;
+        //}
     }
 
     static auto test_constant_initialize_std_fill()
     {
         std::println("Using std::fill");
 
+        ScopedTimer watch{};
+
+
         std::vector<double> values(Size);
 
-        ScopedTimer watch{};
 
         std::fill(
             values.begin(),
@@ -60,11 +73,12 @@ namespace Algorithms {
 
     static auto test_constant_initialize_std_fill_parallelized ()
     {
-        std::println("Using std::fill - using execution policy ");
+        std::println("Using std::fill - using execution policy ");   // C++  20 
 
-        std::vector<double> values(Size);
 
         ScopedTimer watch{};
+
+        std::vector<double> values(Size);
 
         std::fill(
             std::execution::par,
@@ -78,30 +92,60 @@ namespace Algorithms {
     {
         std::println("Using std::for_each");
 
+        ScopedTimer watch{};
+
         std::vector<double> values(Size);
 
-        ScopedTimer watch{};
 
         std::for_each(
             values.begin(),
             values.end(),
-            [](auto& elem) { elem = 123.0; }
+            [] (auto& elem) { elem = 123.0; }
         );
+    }
+
+    // C++ 11
+    static auto test_constant_initialize_std_range_based_loop ()
+    {
+        std::println("Using Range_based_loop");
+
+        ScopedTimer watch{};
+
+        std::vector<double> values(Size);
+
+
+        // go for range based for-loop // std::for_each
+        for (auto& elem : values) {
+            elem = 123.0;
+        }
+
+        //std::for_each(
+        //    values.begin(),
+        //    values.end(),
+        //    [](auto& elem) { elem = 123.0; }
+        //);
     }
 
     static auto test_constant_initialize_std_generate()
     {
         std::println("Using std::generate");
 
-        std::vector<double> values(Size);
-
         ScopedTimer watch{};
+
+        std::vector<double> values(Size);    // 100
+       // std::list <double> list(100);
 
         std::generate(
             values.begin(),
             values.end(),
-            [] { return 123.0; }
+            [] () { return 123.0; }   // 100 Mal aufgerufen: 
         );
+
+        //std::generate(
+        //    list.begin(),
+        //    list.end(),
+        //    []() { return 123.0; }   // 100 Mal aufgerufen: 
+        //);
     }
 
     static auto test_constant_initialize_user_defined_ctor()
@@ -111,6 +155,8 @@ namespace Algorithms {
         ScopedTimer watch{};
 
         std::vector<double> values(Size, 123.0);
+
+        // std::vector<double> values2{ Size, 123.0 };
     }
 
     static void test_const_initialization()
@@ -120,6 +166,7 @@ namespace Algorithms {
         test_constant_initialize_std_fill();
         test_constant_initialize_std_fill_parallelized();
         test_constant_initialize_std_for_each();
+        test_constant_initialize_std_range_based_loop();
         test_constant_initialize_std_generate();
         test_constant_initialize_user_defined_ctor();
     }
@@ -249,7 +296,7 @@ namespace Algorithms {
         std::for_each(
             values.cbegin(),
             values.cend(),
-            [&sum](const auto& value) {sum += value; }
+            [&sum] (const auto& value) {sum += value; }
         );
 
         return sum;
@@ -315,10 +362,10 @@ namespace Algorithms {
     {
         std::println("Copying: Using a classic for-loop");
 
+        ScopedTimer watch{};
+
         std::vector<double> source(Size, 123.0);
         std::vector<double> target(Size);
-
-        ScopedTimer watch{};
 
         for (size_t i{}; i != source.size(); ++i) {
             target[i] = source[i];
@@ -405,9 +452,9 @@ namespace Algorithms {
 void main_algorithms()
 {
     using namespace Algorithms;
-    test_const_initialization();
-    test_initialization();
-    test_sum_calculation();
+    // test_const_initialization();
+    //test_initialization();
+    //test_sum_calculation();
     test_copying();
 }
 

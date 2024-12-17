@@ -7,6 +7,8 @@ import modern_cpp_exercises;
 
 import std;
 
+void frage_events_source_and_sink();
+
 #pragma message("Collection of Modern C++-Code Examples - Copyright (C) 2019-2024 Peter Loos")
 
 int main()
@@ -15,6 +17,8 @@ int main()
     //_main_modules();
 
     std::cout << "[Collection of Modern C++-Code Examples - Copyright (C) 2019-2024 Peter Loos]" << std::endl;
+
+    frage_events_source_and_sink();
 
     // main entry points code snippets
     try
@@ -54,7 +58,7 @@ int main()
         //main_functional_programming_alternate();
         //main_generate();
         //main_generic_functions();
-        //main_initializer_list();
+       //main_initializer_list();
         //main_input_output_streams();  
         //main_invoke();
         //main_lambdas();
@@ -79,7 +83,7 @@ int main()
         //main_regular_expressions();
         //main_rvalue_lvalue();
         //main_sfinae();
-        main_shared_ptr();
+        //main_shared_ptr();
         //main_source_location();
         //main_sso();
         //main_static_assert();
@@ -107,7 +111,7 @@ int main()
         //main_virtual_override_final();
         //main_weak_pointer();
 
-       // main_exercises();
+      //  main_exercises();
     }
     catch (const std::exception& ex) {
         std::cout << "Exception: " << ex.what() << std::endl;

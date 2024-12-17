@@ -654,6 +654,9 @@
     <ClCompile Include="Algorithms\Module_Algorithms.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Frage_Delegates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Readme.md">

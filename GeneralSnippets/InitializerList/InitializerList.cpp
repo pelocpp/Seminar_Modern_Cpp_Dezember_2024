@@ -34,7 +34,9 @@ namespace InitializerList {
     static void test_01() {
 
         // testing functions expecting lists in function call
-        int sum = adder({ 1, 2, 3, 4, 5 });
+
+        int sum = adder ( { 1, 2, 3, 4, 5, 6, 7, 8 } );
+        
         std::cout << sum << std::endl;
 
         print({ 1, 2, 3, 4, 5 });
@@ -66,7 +68,8 @@ namespace InitializerList {
     };
 
     // container-like classes
-    class Polygon {
+    class Polygon
+    {
     public:
         Polygon(std::initializer_list<Point> points)
             : m_points{ points }
@@ -88,7 +91,7 @@ namespace InitializerList {
             }
         };
 
-        // same example - with brace elision
+        // same example - with brace elision  // C++ 17 
         Polygon polygon2
         {                          // c'tor Polygon - using brace initialization syntax
             { 45.0, 45.0 },        // c'tor Point - using brace initialization syntax

@@ -56,6 +56,12 @@ To be Done:
 
 noexcept    // Exception Safety
 
+emplace
+
+delegate: C#
+
+Callable // ähnlich zu delegate
+
 ==================================
 
 
@@ -555,3 +561,144 @@ b) Wie können wir es lösen?  std::weak_ptr
 i) Wie arbeitet die Klasse std::weak_ptr?
 
 ii) Analyse / Behebung des Problems
+
+======================================================
+
+a) Was ist das Problem?
+
+Zyklen.
+
+Frage: Observer - Pattern
+
+a) es gibt eine Quelle (Source).
+
+   die hat Zustand (state), der sich ändert
+
+b) es gibt Clients -- die sich für Änderungen des Zustands der Quelle interessieren.
+
+c) der Client "meldet" sich an der Quelle an (register, attach, ..)
+
+   // interface pointer
+
+d) die Source "hebt diese Client (interface) zeiger" auf // Liste
+
+Entscheidungen:
+
+i) Quelle (Source): Owner ==> std::shared_ptr 
+
+ii) Clients: Owner ==> std::shared_ptr 
+
+iii) Wie sieht es mit der Liste der "Client (interface) Zeiger"
+     in der Quelle aus ???
+
+     std::list < shared > ???
+
+     Soll tatsächlich eine Quelle , die mit Clients erst MAl nichts zu tun hat,
+     zum "Owner" von Clients werden ????????????????????????
+
+     Client nicht mehr notwendig ==> unregister / detach
+
+    NEIN.        std::list < weak > ???
+
+    Konsequenz: Es tritt in der Quelle eine Zustandsänderung ein:
+
+    weak.lock();   ==> i) shared_ptr
+                      ii) nullptr
+
+    Loose Kopplung // keine: Strenge Kopplung
+
+
+Ein Beispiel:
+
+https://github.com/pelocpp/cpp_design_patterns/blob/master/Patterns/Observer/ConceptualExample02.cpp
+
+https://stackoverflow.com/questions/10120623/removing-item-from-list-of-weak-ptrs
+
+
+Fazit:
+
+std::shared_ptr:  Okay , Owner
+
+std::weak_ptr: So viel es geht verwenden.
+
+Visualisierung:   std::weak_ptr:
+
+Business Logik: Bauteile.
+
+===================================================
+
+Algorithmen:
+
+Konkurrenz:   fort - Schleifen
+
+Architektur:
+
+Container:
+std::vector                Iterator:                Algorithmus:
+
+begin()                    <===>              std::find ( vec.begin(), vec.end()   )
+
+
+Neu:
+
+Range Based Loop:   for_each
+
+std::vector<int> numbers;
+
+for (  int elem  :  numbers ) {
+
+}
+
+============================================================
+
+std::vector<int> :               HEAP
+
+
+std::initializer_list<int>:      STACK
+
+PERFORMANZ !!!!!!!!!!!!!!
+
+Wehrmutstropfen
+
+
+
+std::vector <int> vec (10);     // Size: 10 - Alle Elemente: 0
+
+vs.
+
+std::vector <int> vec { 10 };  // Size: 1 - Elemente: 10
+
+======================================================
+
+Hilfsklassen:
+
+std::variant
+
+Kann Werte unterschiedlichen Typs aufnehmen - zu einem Zeitpunkt
+nur von einem Typ.
+
+Excel // Google Sheets:   Zelle // Cell
+
+Zelle:  Zeichenkette, Zahl , Datum, Währung ...
+
+Die Typen müssen vorab bekannt sein !!!
+
+C#  / Java:   Reflection
+
+=============================================================
+
+Aufgaben zu Smart Pointer:
+
+   == Aufgabe 3
+
+   == Aufgabe 1 (2)
+
+=============================================================
+
+Mittwoch früh:
+
+a) Übung Shared-Ptr
+
+b) Frage zu delegate
+
+c) 

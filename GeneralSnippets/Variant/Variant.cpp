@@ -2,6 +2,10 @@
 // Variant.cpp // std::variant
 // =====================================================================================
 
+module;
+
+#include <variant>
+
 module modern_cpp:variant;
 
 namespace VariantDemo {
@@ -92,8 +96,29 @@ namespace VariantDemo {
         std::variant<int, double, std::string> var{ 123 };
 
         // using a generic visitor (matching all types in the variant)
-        auto visitor = [](const auto& elem) {
-            std::println("{}", elem);
+        auto visitor = [](const auto& elem) -> void {
+
+            using Type = decltype (elem);
+
+            using TypeWithoutRef = std::remove_reference<Type>::type;
+            using TypeWithoutRefAndConst = std::remove_const<TypeWithoutRef>::type;
+
+            if constexpr ( std::is_same<TypeWithoutRefAndConst, int>::value == true ) 
+            {
+                std::println("int: {}", elem);
+            }
+            else if constexpr (std::is_same<TypeWithoutRefAndConst, double>::value == true)
+            {
+                std::println("double: {}", elem);
+            }
+            else if constexpr (std::is_same<TypeWithoutRefAndConst, std::string>::value == true )
+            {
+                std::println("std::string: {}", elem);
+                std::println("Length: {}", elem.size());
+            }
+            else {
+                std::println("Unbekannt: {}", elem);
+            }
         };
 
         std::visit(visitor, var);
@@ -107,7 +132,7 @@ namespace VariantDemo {
 
     // -------------------------------------------------------------------
 
-    class Visitor
+    class Visitor   // Callable // Aufrufbares Objekt
     {
     public:
         void operator() (int n) {
@@ -230,13 +255,13 @@ namespace VariantDemo {
 void main_variant()
 {
     using namespace VariantDemo;
-    test_01();
-    test_02();
+    //test_01();
+    //test_02();
     test_03();
-    test_04();
-    test_05();
-    test_06();
-    test_07();
+    //test_04();
+    //test_05();
+    //test_06();
+    //test_07();
 }
 
 // =====================================================================================

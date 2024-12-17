@@ -240,6 +240,7 @@
     <ClCompile Include="ExpressionTemplates\Module_ExpressionTemplates.ixx" />
     <ClCompile Include="Folding\Module_Folding.ixx" />
     <ClCompile Include="Folding\Folding.cpp" />
+    <ClCompile Include="Frage_Delegates.cpp" />
     <ClCompile Include="FunctionalProgramming\FunctionalProgramming.cpp" />
     <ClCompile Include="FunctionalProgramming\FunctionalProgramming02.cpp" />
     <ClCompile Include="FunctionalProgramming\FunctionalProgramming03.cpp" />
