@@ -11,7 +11,9 @@ namespace Exercises_Generic_Lambdas {
         static void testExercise_01_01() {
 
             // define a generic lambda
-            auto isGreaterThanFifty = [](const auto& n) { return n > 50; };
+            auto isGreaterThanFifty = [](const auto& n) {
+                return n > 50; 
+             };
 
             std::vector<int> intValues{ 44, 65, 22, 77, 2 };
 

@@ -7,17 +7,21 @@ module;
 #include <stdio.h>
 #include <windows.h>
 
+#include <memory>
+
 module modern_cpp:unique_ptr;
 
 namespace UniquePointerGeneral {
 
     static std::unique_ptr<int> loadUniquePointer()
     {
-        std::unique_ptr<int> ptr{ std::make_unique<int>(100) };
-        return ptr;
+        //std::unique_ptr<int> ptr{ std::make_unique<int>(100) };
+        //return ptr;
+
+        return std::make_unique<int>(100);
     }
 
-    static void storeUniquePointer(std::unique_ptr<int>& ptr)
+    static void storeUniquePointer(const std::unique_ptr<int>& ptr)
     {
         std::println("*ptr:    {}", *ptr);
         (*ptr)++;
@@ -50,6 +54,10 @@ namespace UniquePointerGeneral {
 
     static void test_01()
     {
+        //std::unique_ptr<int> ptrX;
+        //std::unique_ptr<int> ptrY;
+        //ptrX = ptrY;
+
         // create a unique_ptr to an int with value 123
         std::unique_ptr<int> ptr1{ new int{ 123 } };
         // or
@@ -100,7 +108,7 @@ namespace UniquePointerGeneral {
         storeUniquePointer(ptr);
 
         // C++ Core Guidelines
-        storeUniquePointerAlternate(ptr.get());
+       // storeUniquePointerAlternate(ptr.get());
 
         // does this work?
         std::println("*ptr:    {}", *ptr);

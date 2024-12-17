@@ -61,14 +61,14 @@ namespace Exercises_Lambdas {
             // testing callable object
             EvenOrOdd callableObj;
             value = 15;
-            result = callableObj(value);
+            result = callableObj (value);
             std::cout
                 << "evenOrOdd of " << value << ": "
                 << std::boolalpha << result << std::endl;
 
             // testing lambda
             value = 16;
-            result = lambda(value);
+            result = lambda (value);
             std::cout
                 << "evenOrOdd of " << value << ": "
                 << std::boolalpha << result << std::endl;

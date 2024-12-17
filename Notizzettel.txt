@@ -328,3 +328,230 @@ Aufgaben zu Lambda:
 Aufgaben zu generische Lambda Funktionen:
 
     Aufgabe 1
+
+
+Wann kann ich die no-throw Garantie geben ????
+
+In Methoden, die nur aus Wertzuweisungen bestehen.
+
+a) Getter / setter:
+
+   Vorsicht: Hier würde ich kein noexcept verwenden.
+
+b) Doch, doch: In vielen "anspruchsvollen" C++ Quellen findet man noexcept vor.
+
+Vorteil von noexcept:
+
+void tueWas1 () noexcept // KEIN Stack Unwinding Code abgesetzt !!!!!!!
+                         // Runtime: terminate
+{
+    int* ip = new int[100];   // std::bad_alloc
+
+    // std::bad_alloc wird an die aufrufende Methode (am Stack) weitergereicht
+
+    // Stack Unwinding Code
+}
+
+void tueWas2 ()
+{
+    try {
+        int* ip = new int[100];   // std::bad_alloc
+    }
+    catch (std::bad_alloc) {
+    
+        // 
+    }
+}
+
+
+void rufeTueWasAuf ()
+{
+    try {
+        tueWas1 ();
+    }
+    catch (std::bad_alloc) {
+    
+        // 
+    }
+}
+
+==========================================================
+
+Konstanten // Literale
+
+123
+
+123.456
+
+123.456f
+
+123ul
+
+123ll
+
+Frage:
+
+
+123_kg
+
+123_kilometer
+
+123_km                // elementare Datentypen
+
+123_pound
+
+123_euros
+
+0xFF0000_farbe
+
+0xFF0000_rgb     // ben. def. Klasse Color
+
+"123"_km
+
+123.3345_km
+
+"10.11.33"_uhrzeit  ==> Objekt einer Klasse 
+
+"DE80760501011234567890"_iban
+
+Literale: Lexikon : Wörter , aus denen Sätze der Programmiersprache gebildet werden können
+
+Sätze: Grammatik / Syntax
+
+C++: Lexikon kann erweitert werden.
+
+Wie:
+
+a) operator ""    literal operator
+
+b) Syntax:   operator ""  SUFFIX ( parameter )
+
+unsigned long long
+long double
+const char*
+
+C++  UDL  User Defined Literal
+
+Call-to-Action: Welche technologischen Werte / Konstanten / Einheiten
+
+==========================================================
+
+Topic / Frage:
+
+constexpr und throw:
+
+a) Official Statement: In constexpr - Funktionen ist throw nicht erlaubt.
+
+b) Duldung:
+
+        if (value > 0xFFFFFF) {
+            throw std::logic_error("literal too large");
+        }
+
+
+========================================================
+
+Was ist das Problem mit new ????
+
+Memory Leaks
+
+delete wird nicht aufgerufen.
+
+Lösungen:
+
+Idee:
+
+a) C++  // Objekt-orientierte Progr.Sprache
+
+b) Konstruktoren / Destruktoren
+
+c) Wann wird ein Destruktor aufgerufen ?
+
+   Sobald das Objekt out-of-scope geht ! "}"
+
+d) Beobachtung: Dies könnte man als deterministisch bezeichen.
+
+e) Idee:
+
+   Pointer (new) übergebe man in die Obhut einer Hüllenklasse
+
+   i)  Konstruktor: Pointer an die Hüllenklasse übergeben kann
+   ii) Destruktor:  Hier wird 'delete' aufgerufen
+
+Fragen:  Lebt dann der Zeiger nur innerhalb eines Scopes ??? Nein.
+
+auto_ptr:  deprecated.
+
+std::unique_ptr
+std::shared_ptr
+std::weak_ptr
+
+Strategien:
+
+std::unique_ptr:
+
+Dieser kann im Programm zu EINEM Zeitpunkt nur in den Händen
+EINES Besitzers (Owner) sein.
+
+std::shared_ptr:
+
+Dieser kann im Programm zu EINEM Zeitpunkt in den Händen
+MEHRERER Besitzer (Owner) sein.
+
+std::weak_ptr:
+
+Unterstützt den std::shared_ptr.
+
+Dieser kann im Programm zu EINEM Zeitpunkt ein TEMPORÄRER Besitzer
+eines Zeigers sein.
+
+===============================================================
+
+Frage: std::move(ptr) in KOMBINATION mit return;
+
+    static std::unique_ptr<int> loadUniquePointer()
+    {
+        std::unique_ptr<int> ptr{ std::make_unique<int>(100) };
+        return std::move(ptr);
+    }
+
+Schlechte Idee:
+
+Don't do this: Bei 'return' hat der Compiler VIELE
+Optimierungsmöglichkeiten.
+
+Copy/Move Elision
+RVO: Return Value Optimization
+NRVO: Named Return Value Optimization
+
+======================================================
+
+Vorab:
+
+Bisheriger Kenntnisstand:
+
+Go-for Unique oder Shared Ptr
+
+i)   Naheliegende Smart Pointer: Unique-Pointer  // Owner
+
+     Weiterreichen: Verschiebens
+
+ii)  Shared Ptr als Kandidat: Mehrere Besitzer. // Möglichst wenige wäre gut.
+
+     Referenzzähler: 1 => 0
+
+Problem:
+
+     Der SharedPtr funktioniert nicht immer :(((((((
+
+     Er gibt den Speicher nicht frei : Arghhhhhhhhhhhhhhh
+
+a) Was ist das Problem?
+
+b) Wie können wir es lösen?  std::weak_ptr
+
+2 Vorträge:
+
+i) Wie arbeitet die Klasse std::weak_ptr?
+
+ii) Analyse / Behebung des Problems
