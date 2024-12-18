@@ -8,7 +8,12 @@ namespace AnySamples {
 
     static void test_01_any()
     {
+        std::any x;
+
         std::any a{ 1 };
+
+        int value{ std::any_cast<int>(a) };
+
         std::println("{}: {}", a.type().name(), std::any_cast<int>(a));
 
         a = 3.14;
@@ -143,7 +148,7 @@ namespace AnySamples {
         }
     }
 }
-
+ 
 void main_any()
 {
     using namespace AnySamples;

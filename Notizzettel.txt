@@ -775,6 +775,128 @@ Packs und Initializer List
 Real Modern C++
 ---------------
 
-13:35
+======================================================
+
+Klassisches Problem:
+
+int n;
+
+.....
+
+if (n == 0)   // Gültiger Wert vorhanden ist ???
+
+if (n == -1)   // Gültiger Wert vorhanden ist ???
+
+if (n == std::npos)   // Gültiger Wert vorhanden ist ???
 
 
+Saubere Lösung:
+
+int  n;
+bool isValid;
+
+====> std::optional
+
+
+VHIT  : Vom Hirn in die Tastatur
+
+==============================================
+
+ std::tuple: Erweiterung von std::pair
+
+Wozu ist ein std::tuple ähnlich ???
+
+Struktur für Schreibfaule
+
+ZUsammen mit Structured Binding: Da bin ich von der Struktur nicht mehr weit entfernt !!!
+
+
+std::variant <char, int, double> values;
+
+    // Hier gibt es nur EINE Variable -- out of three (char, int, double)
+
+versus
+
+std::tuple <char, int, double> values;
+
+    // Hier gibt es DREI Variablen -- char, int und double
+
+
+std::variant:   
+
+"Vektor von verschiedenen Elementen"
+
+Hmmm: Gibt es einen Vektor von verschiedenen Elementen ???
+
+
+Viele Ebenen
+
+Daten wurden verdichtet / verändert und transportiert:
+
+DTOs  // Data Transfer Objekt
+
+Da könnte man auch std::tuple verwenden.
+
+
+================================================
+
+std::variant <char, int, double> values;
+
+versus
+
+std::any values;   // kann alles aufnehmen
+
+
+CTAD  ==> Class Type Argument Deduction
+
+
+Non-Owning Behaviour:
+
+==============================================
+
+SSO   Small String Optimization
+
+std::string s ("ABC");
+
+==============================================
+
+Folding:    Abrollen
+
+int result = 1 + 2 + 3 + 4 + 5 + 6 + 7;
+
+Why ???????????????????  Performanz
+
+printer (1, 2, 3)
+
+( ... ,   ( std::cout << args << " - ") );
+
+====>
+
+( std::cout << 1 << " - ") ,  ( std::cout << 2 << " - ") ,  ( std::cout << 3 << " - ")
+
+(( print (1) , print(2)  ) , print(3) )
+
+
+( print (1) ,  (  print(2)   , print(3)  ))
+
+45 Minuten
+
+=============================================================
+
+Aufgabe:
+
+Aufgaben zu Folding:
+
+Aufgabe 1: Logische Operationen mit beliebig vielen Operanden
+
+true && true && true && true && true && true && true && true && true && true
+
+===> Folding ???
+
+==========================================================
+
+Aufgaben zu Variadische Templates:
+
+Aufgabe 2: decltype und Type-Traits am Beispiel von sameType
+
+Vorausetzungen: std::is_same

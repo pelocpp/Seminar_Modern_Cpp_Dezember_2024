@@ -8,6 +8,95 @@ module;
 
 module modern_cpp:folding;
 
+namespace Folding_Seminar {
+
+    constexpr size_t MaxCount = 1000000;
+
+    auto addierer_classic( auto ... args ) {
+
+        auto result{ 0 };
+
+        for (auto elem : { args ... })
+        {
+            result += elem;
+        }
+
+        return result;
+    }
+
+    auto addierer_folding( auto ... args ) {
+
+        auto result{ 0 };
+
+        result = ( ...  +  args);
+
+        return result;
+    }
+
+    auto subtrahierer(auto ... args) {
+
+        auto result{ 0 };
+
+        // result = (... - args);
+        result = (args - ...);
+
+        return result;
+    }
+
+    void print(auto value) {
+        std::cout << " = " << value;
+    }
+
+    void printer(auto first, auto ... args) {
+
+        // (std::cout << ... << args << " - ");
+
+        //int x, y;
+       // x = 1, y = 2;
+
+        //(std::cout << ... << args);
+
+        std::cout << first;
+
+        (  ( print(args) )  , ... );
+    }
+
+    void test_seminar_folding() {
+
+        auto result{ addierer_folding(1, 2, 3, 4, 5, 6, 7, 8) };
+        // 1 - 2 - 3:
+        //   Ergebnis: -4
+        //   Ergebnis  +2
+        result = subtrahierer(1, 2, 3);
+
+        printer(1, 234.234, '?', std::string{"XYZ"}, 999);
+
+        std::cout << std::endl;
+    }
+
+    void test_seminar_folding_bench() {
+
+        {
+            ScopedTimer watch; 
+
+            for (size_t i{}; i < MaxCount; ++i) {
+                auto result1{ addierer_classic(1, 2, 3, 4, 5, 6, 7, 8) };
+            }
+        }
+
+        {
+            ScopedTimer watch;
+
+            for (size_t i{}; i < MaxCount; ++i) {
+                auto result1{ addierer_folding(1, 2, 3, 4, 5, 6, 7, 8) };
+            }
+        }
+
+        // auto result2{ addierer_folding(1, 2, 3, 4, 5, 6, 7, 8) };
+    }
+}
+
+
 namespace Folding {
 
     /* folding examples: introduction
@@ -173,6 +262,10 @@ namespace Folding {
 
 void main_folding()
 {
+    using namespace Folding_Seminar;
+    test_seminar_folding();
+    return;
+
     using namespace Folding;
     //test_01();
     //test_02();

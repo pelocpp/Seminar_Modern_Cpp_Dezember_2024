@@ -2,6 +2,10 @@
 // Array.cpp // std::array // std::to_array // std::span
 // =====================================================================================
 
+module;
+
+#include <vector>
+
 module modern_cpp:class_array;
 
 namespace StdArray {
@@ -12,7 +16,7 @@ namespace StdArray {
     static void test_01() {
 
         // initialization variants
-        [[maybe_unused]] std::array<int, 5> array1;
+        std::array<int, 5> array1;
 
         std::array<int, 5> array2{};
 
@@ -359,23 +363,25 @@ namespace StdArray {
 
     static void test_31() {
 
-        int carr[]{ 1, 2, 3, 4, 5 };
-        printSpan(carr);
-
-        std::array arr{ 6, 7, 8, 9, 10 };
-        printSpan(arr);
-
-        std::vector<int> vec{ 1, 3, 5, 7, 9 };
-        printSpan(vec);
-
         //int carr[]{ 1, 2, 3, 4, 5 };
-        //printSpan(std::span{ carr });
+        //printSpan(carr);
 
         //std::array arr{ 6, 7, 8, 9, 10 };
-        //printSpan(std::span{ arr });
+        //printSpan(arr);
 
-        //std::vector vec{ 1, 3, 5, 7, 9 };
-        //printSpan(std::span{ vec });
+        //std::vector<int> vec{ 1, 3, 5, 7, 9 };
+        //printSpan(vec);
+
+        int carr[]{ 1, 2, 3, 4, 5 };
+        printSpan(std::span{ carr });
+
+        std::array arr{ 6, 7, 8, 9, 10 };
+        printSpan(std::span{ arr });
+
+        std::vector vec{ 1, 2, 3 };
+        std::span mySpan{ vec };
+        vec.push_back(4);
+        printSpan(mySpan);
     }
 
     // --------------------------------------------------------------------
@@ -409,21 +415,21 @@ void main_array()
 {
     using namespace StdArray;
 
-    test_01();
-    test_02();
-    test_03();
-    test_04();
-    test_05();
-    test_06();
-    test_07();
-    test_08();
-    test_09();
-    test_10();
-    test_11();
-    test_20();
-    test_30();
+    //test_01();
+    //test_02();
+    //test_03();
+    //test_04();
+    //test_05();
+    //test_06();
+    //test_07();
+    //test_08();
+    //test_09();
+    //test_10();
+    //test_11();
+    //test_20();
+    //test_30();
     test_31();
-    test_32();
+    //test_32();
 }
 
 // =====================================================================================

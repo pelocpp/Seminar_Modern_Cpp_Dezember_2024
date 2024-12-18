@@ -26,6 +26,10 @@ namespace TupleSamples {
             std::get<0>(values), std::get<1>(values), std::get<2>(values)
         );
 
+        // erstes Element des Tuples rausziehen:
+        //int n = 0;   // das geht nicht !!!
+        //auto val = std::get<n>(values);
+
         // use std::get to change single values of a tuple 
         std::get<0>(values) = 'M';
         std::get<2>(values) = 135.79;
@@ -74,6 +78,8 @@ namespace TupleSamples {
     // =======================================================
     // same example, but using C++ 17 structured binding
 
+    // using Row = std::tuple<int, char, double, std::string>;
+
     static void test_03()
     {
         Row row1 = std::make_tuple(10, 'A', 1.11, "Mueller");
@@ -94,6 +100,7 @@ namespace TupleSamples {
         std::println("Value: {}", val);
         std::println("Name:  {}", name);
 
+        // for_each // Range-based Loop + Structured Binding
         for (const auto& [id, abbr, val, name] : mySheet)
         {
             std::println("Id:    {}", id);
@@ -125,7 +132,7 @@ namespace TupleSamples {
 
         // or (note: std::ignore)
         // 
-        // std::tie(id, std::ignore, val, name) = mySheet[0];
+        std::tie(id, std::ignore, val, name) = mySheet[0];
 
         std::println("Id:    {}", id);
         std::println("Abbr:  {}", abbr);

@@ -48,7 +48,7 @@ namespace OptionalExamples {
     {
 
     private:
-        std::optional<std::string> m_phone;
+        std::optional<std::string> m_phone;  // private, home, mobile  ""
 
     public:
         Contact() : m_phone{ std::nullopt } {}

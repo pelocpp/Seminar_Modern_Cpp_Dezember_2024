@@ -28,7 +28,7 @@ int main()
         //main_allocator();
         //main_any();
         //main_argument_dependent_name_lookup();
-        //main_array();
+       // main_array();
         //main_array_decay();
         //main_attributes();
         //main_auto();
@@ -52,7 +52,7 @@ int main()
         //main_expression_templates();
         //main_exception_safety();
         //main_explicit_keyword();
-        //main_folding();
+        main_folding();
         //main_functional_programming_ranges();
         //main_functional_programming();
         //main_functional_programming_alternate();
@@ -97,12 +97,12 @@ int main()
         //main_templates_specialization();
         //main_to_underlying();
         //main_transform();
-        //main_tuple(); 
+       // main_tuple(); 
         //main_two_phase_name_lookup();
         //main_type_erasure();
         //main_type_traits();
         //main_unique_ptr();
-        main_variadic_templates_introduction();
+       // main_variadic_templates_introduction();
         //main_variadic_templates_working_on_every_argument();
         //main_variadic_templates_sum_of_sums();
         //main_variadic_templates_mixins();

@@ -6,8 +6,13 @@ module modern_cpp:string_view;
 
 namespace StringViewDemonstration {
 
+    // Extensions
+
     static void test_01()
     {
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+        // std::span: Anfangsadresse und Länge
         std::string_view sv{ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" };  // Konstante Zeichenkette
 
         std::string s{ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" };        //  Heap
