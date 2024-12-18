@@ -105,10 +105,10 @@ namespace UniquePointerGeneral {
         std::println("*ptr:    {}", *ptr);
 
         // provide a function with a unique pointer: who owns the pointer now?
-        storeUniquePointer(ptr);
+        // storeUniquePointer(ptr);
 
         // C++ Core Guidelines
-       // storeUniquePointerAlternate(ptr.get());
+        storeUniquePointerAlternate(ptr.get());
 
         // does this work?
         std::println("*ptr:    {}", *ptr);

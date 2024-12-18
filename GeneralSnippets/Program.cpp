@@ -18,7 +18,7 @@ int main()
 
     std::cout << "[Collection of Modern C++-Code Examples - Copyright (C) 2019-2024 Peter Loos]" << std::endl;
 
-    frage_events_source_and_sink();
+   //frage_events_source_and_sink();
 
     // main entry points code snippets
     try
@@ -72,7 +72,7 @@ int main()
         //main_modules();
         //main_move_semantics();
         //main_optional();
-        //main_perfect_forwarding();
+       // main_perfect_forwarding();
         //main_placement_new();
         //main_println();
         //main_raii();
@@ -102,7 +102,7 @@ int main()
         //main_type_erasure();
         //main_type_traits();
         //main_unique_ptr();
-        //main_variadic_templates_introduction();
+        main_variadic_templates_introduction();
         //main_variadic_templates_working_on_every_argument();
         //main_variadic_templates_sum_of_sums();
         //main_variadic_templates_mixins();
@@ -111,7 +111,7 @@ int main()
         //main_virtual_override_final();
         //main_weak_pointer();
 
-      //  main_exercises();
+       // main_exercises();
     }
     catch (const std::exception& ex) {
         std::cout << "Exception: " << ex.what() << std::endl;

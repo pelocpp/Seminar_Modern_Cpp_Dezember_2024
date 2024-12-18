@@ -4,6 +4,172 @@
 
 module modern_cpp:variadic_templates;
 
+namespace VariadicTemplatesIntro_Seminar
+{
+    // In C++ 11: ZWEI Funktionen
+
+    // Ab C++ 20: Generische variadische Funktionen
+
+    void printer(auto n) {
+        std::cout << n << std::endl;
+    }
+
+    void printer(auto n, auto ... m) {
+
+        std::cout << n << std::endl;
+        printer(m ...);
+    }
+
+    auto addierer( auto  ... args ) {
+
+        // wie kann ich auf ein einzelnen Argumente zugreifen:
+        // a) Dem ersten einen Namen geben
+        // b) std::initializer_list
+
+        // auto list = { args  ... };
+
+        auto result{ 0 };
+
+        for (auto elem : { args  ... } ) {
+            result += elem;
+        }
+
+        return result;
+    }
+
+    void test_variadic_seminar_03() {
+
+
+        std::vector zahlen{ 1, 2, 3, 4, 5 };
+
+        // printer(1, 2, 3, 4, 5);     
+
+        auto result = addierer(1, 2, 3, 4, 5);
+
+    }
+
+    // Ab C.. 17: Ginge mit einer Funktion
+
+    template <typename T, typename ... TArgs>  // U: int, int, int, int
+
+    void printerOneFunction(T n, TArgs ... args) {
+
+        std::cout << n << std::endl;
+
+        if constexpr ( sizeof... ( args ) > 0)    // jetzt ist args LEER sizeof == 0
+        {
+            printerOneFunction(args ...);
+        }
+    }
+
+
+    // =============================================================
+    // Why
+
+    class Unknown {
+    private:
+        int m_var1;
+        int m_var2;
+        int m_var3;
+
+    public:
+        // Demonstration
+        Unknown(const Unknown& other) 
+            : m_var1{ other.m_var1}, m_var2{ other.m_var2 }, m_var3{ other.m_var3 } {
+            std::cout << "copy c'tor()" << std::endl;
+        }
+
+        Unknown() : m_var1{ -1 }, m_var2{ -1 }, m_var3{ -1 } {
+            std::cout << "c'tor()" << std::endl;
+        }
+
+        Unknown(int n) : m_var1{ n }, m_var2{ -1 }, m_var3{ -1 } {
+            std::cout << "c'tor(int)" << std::endl;
+        }
+
+        Unknown(int n, int m) : m_var1{ n }, m_var2{ m }, m_var3{ -1 } {
+            std::cout << "c'tor(int, int)" << std::endl;
+        }
+
+        Unknown(int n, int m, int k) : m_var1{ n }, m_var2{ m }, m_var3{ k } {
+            std::cout << "c'tor(int, int, int)" << std::endl;
+        }
+
+
+        Unknown(int n, int m, int k, int&& vier)
+            : m_var1{ n }, m_var2{ m }, m_var3{ k } {
+            std::cout << "c'tor(int, int, int)" << std::endl;
+        }
+
+        friend std::ostream& operator<< (std::ostream&, const Unknown&);
+    };
+
+    std::ostream& operator<< (std::ostream& os, const Unknown& obj) {
+        os
+            << "var1: " << obj.m_var1
+            << ", var2: " << obj.m_var2
+            << ", var3: " << obj.m_var3 << std::endl;
+
+        return os;
+    }
+
+    // simple, hmmm, eben nur mit Kopien
+    template <typename T, typename ... TArgs>
+    std::unique_ptr<T> my_make_unique_simple(TArgs ... args)
+    {
+        std::unique_ptr<T> tmp{ new T{ args ...} };  // auspacken: args => 1, 2, 3
+        return tmp;
+    }
+
+    // perfekt - keine Kopien, nur Referenzen
+    // a) Universal Referenz: TArgs&&
+    // b) std::forward verwenden !!!
+    template <typename T, typename ... TArgs>
+    std::unique_ptr<T> my_make_unique(TArgs&& ... args)  
+    {
+        std::unique_ptr<T> tmp{ new T{ std::forward<TArgs>(args) ... } };  // auspacken: args => 1, 2, 3
+        return tmp;
+    }
+
+    template <typename T>
+    std::unique_ptr<T> my_make_unique_real_modern(auto&& ... args)
+    {
+        std::unique_ptr<T> tmp{ new T{ std::forward<decltype(args)> (args) ... } };  // auspacken: args => 1, 2, 3
+        return tmp;
+    }
+
+    void test_with_smart_pointer() {
+
+        std::unique_ptr<Unknown> up1 = 
+            my_make_unique<Unknown, int, int, int>(1, 2, 3);  // einpacken: 1, 2, 3 ==> args
+    
+        int vier = 123;
+
+        std::unique_ptr<Unknown> up2 =
+            my_make_unique_real_modern<Unknown>(1, 2, 3,4);  // einpacken: 1, 2, 3 ==> args
+
+    }
+
+    void test_variadic_seminar()
+    {
+        test_with_smart_pointer();
+    }
+
+    void test_variadic_seminar_02()
+    {
+
+        std::vector<Unknown> vec;
+
+       // vec.push_back(Unknown {1, 2, 3});
+    
+        // emplace
+
+        vec.emplace_back( 1, 2 );
+    }
+}
+
+
+
 namespace VariadicTemplatesIntro_01 {
 
     // ====================================================================
@@ -281,6 +447,10 @@ namespace VariadicTemplatesIntro_05 {
 
 void main_variadic_templates_introduction()
 {
+    using namespace VariadicTemplatesIntro_Seminar;
+    test_variadic_seminar();
+    return;
+
     using namespace VariadicTemplatesIntro_01;
     test_printer_01();
 

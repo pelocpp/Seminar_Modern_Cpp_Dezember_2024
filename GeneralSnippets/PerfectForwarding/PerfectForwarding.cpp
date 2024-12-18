@@ -15,13 +15,18 @@ namespace PerfectForwarding {
     }
 
     /*
-     * Note: "T&&" with "T" being template parameter is special: Universal Reference
+     * Note: "T&&" with "T" being template parameter is special:
+     *   Universal Reference
      */
 
     template <typename T>
     void forwarding(T&& arg) {
         overloaded(arg);
     }
+
+
+
+
 
     template <typename T>
     void forwardingPerfect(T&& arg) {
@@ -55,10 +60,10 @@ namespace PerfectForwarding {
 
         // T obj1 = std::forward<T>(arg1);
         // vs
-        T obj1 = arg1;
+        T obj1 ( std::forward<T>(arg1) );   // copy-c'tor // move-c'tor
         std::cout << arg1 << std::endl;
 
-        T obj2 = std::forward<U>(arg2);
+        T obj2 ( std::forward<U>(arg2) );
         std::cout << arg2 << std::endl;
     }
 
@@ -69,11 +74,11 @@ namespace PerfectForwarding {
         std::string s{ "DEF" };
         std::cout << s << std::endl;
 
-        foo(std::string{ "ABC" }, s);
+        foo ( std::string{ "ABC" }, s);
     }
 }
 
-void main_perfect_forwarding()
+void main_perfect_forwarding() 
 {
     using namespace PerfectForwarding;
     test_forwarding();

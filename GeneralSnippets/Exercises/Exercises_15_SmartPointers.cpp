@@ -120,7 +120,12 @@ namespace Exercises_SmartPointers {
 
             int currentValue() const
             {
-                return *m_ptr;  // m_ptr might have been released !
+                if (m_ptr == nullptr) {
+                    return 0;
+                }
+                else {
+                    return *m_ptr;  // m_ptr might have been released !
+                }
             }
         };
 
@@ -139,7 +144,7 @@ namespace Exercises_SmartPointers {
 
         class HeavyAndSafeWatcher {
         private:
-            std::shared_ptr<int> m_ptr;
+            std::shared_ptr<int> m_ptr;   // Einen Referenzcounterwert (eine 1)
 
         public:
             HeavyAndSafeWatcher() {}
@@ -160,7 +165,7 @@ namespace Exercises_SmartPointers {
             HeavyAndSafeWatcher watcher;
 
             {
-                std::shared_ptr<int> sp{ std::make_shared<int>(123) };
+                std::shared_ptr<int> sp{ std::make_shared<int>(123) };     // Zweite Referenzcounterwert (eine zweite 1)
                 watcher.watch(sp);
                 std::cout << "Value: " << watcher.currentValue() << std::endl;
             }
@@ -224,7 +229,7 @@ namespace Exercises_SmartPointers {
 void test_exercises_smartpointer()
 {
     using namespace Exercises_SmartPointers;
-    Exercise_01::testExercise_01();
+    //Exercise_01::testExercise_01();
     // Exercise_02::testExercise_02();   // crashes when executed
     Exercise_03::testExercise_03();
 }

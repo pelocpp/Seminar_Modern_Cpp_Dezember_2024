@@ -3,7 +3,7 @@
 // =====================================================================================
 
 // ===========================================================================
-// EventsSourceAndSink.cpp // std::function, std::bind und Lambda Funktionen
+// EventsSourceAndSink.cpp // std::function, std::bind, Lambda Funktionen und using
 // ===========================================================================
 
 /*
@@ -11,7 +11,7 @@
 Realisierung von Callback-Funktionen in C++ (EventSource und EventSink)
 
 Callback-Funktionen sind in vielen Programmiersprachen in der Sprache direkt verankert.
-So sind sie beispielsweise in C# unter dem Namen Delegate vorhanden.
+So sind sie beispielsweise in C# unter dem Namen 'delegate' und 'event' vorhanden.
 
 In C++ lassen sich Callback-Funktionen mit Lambda-Funktionen,
 dem Klassen-Template std::function
@@ -27,7 +27,7 @@ sowie der Funktionsschablone std::bind realisieren.
 
 namespace EventsSourceAndSink {
 
-    using CallbackType = void (const std::string&);
+    using CallbackType = void (const std::string&);  // Signatur
 
     class EventSource {
 
@@ -35,6 +35,7 @@ namespace EventsSourceAndSink {
         EventSource() = default;
 
         void receiveMessage(const std::string& message);
+
         void setHandler(std::function<CallbackType>);
         void addHandler(std::function<CallbackType>);
 
@@ -81,15 +82,20 @@ namespace EventsSourceAndSink {
     static void test_01() {
 
         EventSource source{};
-        EventSink sink{};
+
+        EventSink sink{};  
+
+        // Objekte am Stack ...
+        // Objekte am Heap  
 
         // Version 1: lambda connects sink to source
-        auto handler = [&] (const std::string& msg) {
+        auto handler = [=] (const std::string& msg) mutable -> void {
             sink.messageSent(msg);
         };
 
         // connect sink to source via lambda
         source.setHandler(handler);
+
         source.receiveMessage("first message");
         source.receiveMessage("second message");
     }
@@ -97,6 +103,7 @@ namespace EventsSourceAndSink {
     static void test_02() {
 
         EventSource source{};
+
         EventSink sink{};
 
         // Version 2: connect sink to source WITHOUT intermediary lambda.
@@ -112,7 +119,7 @@ namespace EventsSourceAndSink {
         std::function<CallbackType> handler =
             std::bind(&EventSink::messageSent, &sink, _1);
 
-        // connect sink to source directly
+        // connect sink to source (in)directly, because std::bind also generates a wrapper object
         source.setHandler(handler);
         source.receiveMessage("first message");
         source.receiveMessage("second message");

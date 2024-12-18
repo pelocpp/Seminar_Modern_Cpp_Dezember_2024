@@ -91,6 +91,43 @@ namespace VariantDemo {
 
     // -------------------------------------------------------------------
 
+    // primary template
+    template <typename T>
+    struct my_remove_reference
+    {
+        using type = T;
+    };
+
+    // template specialization:  T = short ==> type = int
+    template <>
+    struct my_remove_reference<short>
+    {
+        using type = int;
+    };
+
+    // template specialization
+    template <typename T>
+    struct my_remove_reference<T&> {
+        using type = T;
+    };
+
+
+
+
+void test()
+{
+    std::vector<int> vec;
+
+    std::vector<int>::iterator pos;
+
+    int n = 123;
+
+    std::vector<int>::value_type n2 = 456;
+
+    vec.push_back(n);
+}
+
+
     static void test_03() {
 
         std::variant<int, double, std::string> var{ 123 };
@@ -100,8 +137,9 @@ namespace VariantDemo {
 
             using Type = decltype (elem);
 
-            using TypeWithoutRef = std::remove_reference<Type>::type;
-            using TypeWithoutRefAndConst = std::remove_const<TypeWithoutRef>::type;
+            using TypeWithoutRef = my_remove_reference<Type>::type;
+
+            using TypeWithoutRefAndConst = std:: remove_const<TypeWithoutRef>::type;
 
             if constexpr ( std::is_same<TypeWithoutRefAndConst, int>::value == true ) 
             {

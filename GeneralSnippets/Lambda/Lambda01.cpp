@@ -179,7 +179,7 @@ namespace Lambdas {
 
         // int (*fp) (int, int, int);
 
-        // int (int, int, int);
+        // int (int, int, int);   // Signatur
 
         // defining a lambda without 'auto'
         // Reduzierte Darstellung der Schnittstelle der Lambda-Funktion

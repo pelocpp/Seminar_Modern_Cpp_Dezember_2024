@@ -699,6 +699,82 @@ Mittwoch früh:
 
 a) Übung Shared-Ptr
 
+Lambdas // std::bind
+
 b) Frage zu delegate
 
-c) 
+Datei: "Frage_Delegates.cpp"
+
+=============================================================
+
+Variadische Templates:
+
+a) Verstehen
+
+b) Why !!!!!!!!!!!!!!!
+
+c) Anwenden - kommt mit der Zeit
+
+d) Berggipfel: Perfekt Forwarding.
+
+
+Tool:  Cpp Insights
+
+======================================================
+
+Templates und Header Files:
+
+Siehe hier:
+
+Klassen Templates 
+
+https://github.com/pelocpp/cpp_modern/blob/master/GeneralSnippets/TemplateClassBasics/TemplatesClassBasics.md
+
+==> Informationen zu den Übersetzungsmodellen für Templates.
+
+Das Inclusion Modell   <==== ist am einfachsten
+
+Das Explicit Instantiation Modell
+
+======================================================
+
+2 Funktionen
+
+Pack und Komma Liste
+
+Was ist ein Parameter Pack:
+
+   printer(auto ... args);     
+
+   printer(1, 2, 3, 4, 5);     
+
+Zusammenfassung der Parameter // exakter: einer KOMMA-getrennten Liste von Werten
+        unter einem Namen.
+
+        Syntax:  ... args
+
+Auspacken: ERZEUGEN einer KOMMA-getrennten Liste von Werten,
+           die sich hinter einem Pack-Bezeichner befinden.
+
+           Syntax:  args ... 
+
+
+
+Why ????????????????????????
+
+Transport von Daten:
+
+== make_xxx Funktionen
+== emplace ...
+== Thread Prozeduren 
+
+Packs und Initializer List
+
+======================================================
+
+Real Modern C++
+---------------
+
+13:35
+
+
