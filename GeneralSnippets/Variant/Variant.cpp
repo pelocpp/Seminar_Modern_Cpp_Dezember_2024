@@ -208,6 +208,9 @@ void test()
         std::vector<std::variant<int, long, long long, float, double>>
             vec = { 100, 200l, 300ll, 400.5f, 500.5 };
 
+
+
+
         // display each value
         std::println("Values:      ");
         for (const auto& var : vec) {
@@ -293,13 +296,13 @@ void test()
 void main_variant()
 {
     using namespace VariantDemo;
-    //test_01();
-    //test_02();
+    test_01();
+    test_02();
     test_03();
-    //test_04();
-    //test_05();
-    //test_06();
-    //test_07();
+    test_04();
+    test_05();
+    test_06();
+    test_07();
 }
 
 // =====================================================================================

@@ -48,7 +48,7 @@ namespace Requires_Clause {
         // template parameter 'T' is ambiguous
         //   could be 'float'
         //   or 'double'
-        auto sum3 = add_modern(123.456, 654.321);
+        auto sum3 = add_modern(123, 654);
 
         //'add': no matching overloaded function found
         //    the associated constraints are not satisfied

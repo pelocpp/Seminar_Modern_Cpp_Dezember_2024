@@ -41,7 +41,7 @@ int main()
         //main_casts();
         //main_common_type();
         //main_concepts_requires_classes();
-        main_concepts_requires_functions();
+        //main_concepts_requires_functions();
         //main_const_variants();
         //main_constexpr();
         //main_constexpr_crc();
@@ -77,7 +77,7 @@ int main()
         //main_optional();
        // main_perfect_forwarding();
         //main_placement_new();
-        //main_println();
+        main_println();
         //main_raii();
         //main_raii_02();
         //main_random();
@@ -102,7 +102,7 @@ int main()
         //main_transform();
        // main_tuple(); 
         //main_two_phase_name_lookup();
-        //main_type_erasure();
+        main_type_erasure();
         //main_type_traits();
         //main_unique_ptr();
        // main_variadic_templates_introduction();

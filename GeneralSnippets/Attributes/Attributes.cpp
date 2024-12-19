@@ -4,7 +4,7 @@
 
 module modern_cpp:attributes;
 
-// #define DEMONSTRATE_WARNINGS_AND_ERRORS   1
+#define DEMONSTRATE_WARNINGS_AND_ERRORS   1
 
 namespace StandardAttributes {
 
@@ -49,7 +49,12 @@ namespace StandardAttributes {
     struct [[ deprecated ]] Struct {};
 
     // for Functions
-    [[ deprecated("Reason for deprecation") ]] void f() {}
+    [[ deprecated("Reason for deprecation") ]] void func() {}
+
+    void anotherFunc()
+    {
+        func();
+    }
 
     // for namespaces
     namespace [[ deprecated ]] any_namespace {}
@@ -60,7 +65,7 @@ namespace StandardAttributes {
     [[ deprecated ]] static void test_deprecated()
     {
         Struct s{};
-        f();
+        func();
         x = 123;
     }
 #endif

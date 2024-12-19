@@ -164,7 +164,9 @@ namespace TypeErasureUsingTemplateTechniquesAndConcepts {
     {
     public:
         template<typename T>
+
             requires ClassActingLikeAnAnimal<T>
+
         PolymorphicObjectWrapper(const T& obj) :
             m_wrappedObject{ std::make_shared<ObjectModel<T>>(obj) }
         {}
@@ -180,6 +182,7 @@ namespace TypeErasureUsingTemplateTechniquesAndConcepts {
         }
 
     private:
+        // Interface
         struct ObjectConcept
         {
             virtual ~ObjectConcept() = default;
@@ -227,11 +230,13 @@ namespace TypeErasureUsingTemplateTechniquesAndConcepts {
 
 namespace BookStoreUsingDynamicPolymorphism {
 
+    // interface - keine Implementierung (abstrakte Klasse)
     struct IMedia
     {
         virtual ~IMedia() = default;
 
-        virtual double getPrice() const = 0;
+        virtual double getPrice() const = 0;  // pure virtual
+        // abstract double getPrice() const;
         virtual size_t getCount() const = 0;
     };
 
@@ -252,6 +257,7 @@ namespace BookStoreUsingDynamicPolymorphism {
         std::string getAuthor() const { return m_author; }
         std::string getTitle() const { return m_title; }
 
+        // interface 'IMedia'
         double getPrice() const override { return m_price; }
         size_t getCount() const override { return m_count; }
     };
@@ -273,6 +279,7 @@ namespace BookStoreUsingDynamicPolymorphism {
         std::string getTitle() const { return m_title; }
         std::string getDirector() const { return m_director; }
 
+        // interface 'IMedia'
         double getPrice() const override { return m_price; }
         size_t getCount() const override { return m_count; }
     };
@@ -282,6 +289,8 @@ namespace BookStoreUsingDynamicPolymorphism {
     private:
         using Stock = std::vector<std::shared_ptr<IMedia>>;
         using StockList = std::initializer_list<std::shared_ptr<IMedia>>;
+
+        Stock m_stock;
 
     public:
         explicit Bookstore(StockList stock) : m_stock{ stock } {}
@@ -295,7 +304,8 @@ namespace BookStoreUsingDynamicPolymorphism {
             double total{};
 
             for (const auto& media : m_stock) {
-                total += media->getPrice() * media->getCount();
+                // getPrice / getCount: indirekte Methodenaufrufe
+                total += media->getPrice() * (*media).getCount();
             }
 
             return total;
@@ -313,7 +323,7 @@ namespace BookStoreUsingDynamicPolymorphism {
         }
 
     private:
-        Stock m_stock;
+
     };
 
     static void test_bookstore_polymorphic_01() {
@@ -415,6 +425,7 @@ namespace BookStoreUsingTypeErasure {
         std::string getAuthor() const { return m_author; }
         std::string getTitle() const { return m_title; }
 
+        // Hmmm ... ist jetzt so nicht wirklich durch einen Vertrag festgelegt ..
         double getPrice() const { return m_price; }
         size_t getCount() const { return m_count; }
     };
@@ -441,19 +452,26 @@ namespace BookStoreUsingTypeErasure {
     };
 
     template<typename T>
-    concept MediaConcept = requires (const T & m)
+    concept MediaConcept = requires (const T& media)
     {
-        { m.getPrice() } -> std::same_as<double>;
-        { m.getCount() } -> std::same_as<size_t>;
+        { media.getPrice() } -> std::same_as<double>;
+        { media.getCount() } -> std::same_as<size_t>;
     };
 
+
+
+
     template <typename ... TMedia>
+
         requires (MediaConcept<TMedia> && ...)
+    
     class Bookstore
     {
     private:
-        using StockType = std::variant<TMedia ...>;
+        using StockType = std::variant<TMedia ...>;  // Book, Movie
+
         using Stock = std::vector<StockType>;
+
         using StockList = std::initializer_list<StockType>;
 
     public:
@@ -466,6 +484,8 @@ namespace BookStoreUsingTypeErasure {
             // m_stock.push_back(StockType{ media });  // ausführliche Schreibweise
             m_stock.push_back(media);
         }
+
+
 
         // or
         void addMediaEx(const MediaConcept auto& media) {
@@ -526,7 +546,7 @@ namespace BookStoreUsingTypeErasure {
             for (const auto& media : m_stock) {
 
                 total += std::visit(
-                    [](const auto& element) {
+                    [](const auto& element) -> double {
                         double price = element.getPrice();
                         size_t count = element.getCount();
                         return price * count;
@@ -591,7 +611,7 @@ namespace BookStoreUsingTypeErasure {
         MyBookstore bookstore{ cBook, movieBond };
 
         Book csharpBook{ "C#", "Anders Hejlsberg", 21.99, 8 };
-        bookstore.addMedia(csharpBook);
+        bookstore.addMedia(csharpBook);  // BlueRay: No
 
         Movie movieTarantino{ "Once upon a time in Hollywood", "Quentin Tarantino", 6.99, 3 };
         bookstore.addMediaEx(movieTarantino);

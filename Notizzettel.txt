@@ -4,7 +4,18 @@ Modern C++
 
 Peter Loos
 
+peter.loos@gmx.de
+
+
 Guten Morgen
+
+https://github.com/pelocpp
+
+https://github.com/pelocpp/cpp_modern
+
+https://peterloos.de/
+
+https://adventofcode.com/
 
 ==================================
 
@@ -915,3 +926,208 @@ if (a > b && c > d++)    // Short Circuit Evaluation
 =================
 
 Können wir Konzepte selber schreiben !!
+
+==================================
+
+Statischer versus dynamischer Polymorphismus
+
+= Polymorphismus
+
+= virtuelle Methoden: 'virtual'
+
+   Feature: Kann diese in einer Basisklasse realisieren
+
+            Überschreiben:  "Verfeinerung"
+
+   Realisierung:
+
+           Pro Klasse gibt es einen Tabelle mit Methodenadressen (virtual)
+
+           'vtable'  = virtual function pointer table
+
+
+= nicht-virtuelle Methoden
+
+=  'virtual': start kritisiert:
+
+   Performanz-Einbußen:
+
+= Nicht - virtuellen Weg:  Ohne Keyword 'virtual'
+
+= Beispiel: Gegenüberstellung: Buchhandlung.
+
+Eine Vorbereitung:
+
+std::variant.
+
+Frage / Aussage:
+
+   STL  // Container // zB. std:vector<>
+
+   Man spricht von "homogenen" Container: std:vector<int>
+
+Mit std::vector<std::variant> kann man zumindest
+die "Illusion eines heterogenen" Containers erwecken.
+
+============================================
+
+= Beispiel: Gegenüberstellung: Buchhandlung.
+
+Unterschiedliche, verschiedene Medien-Produkte.
+
+== Bücher
+== CDs
+== DVDs
+== Magazin / Zeitschriften
+
+== Container, der alle Medien verwaltet.
+
+a) Mit Schnittstellen (Java, C#:  interface)
+
+   In C++: nachahmen.
+
+   Alle Medien leiten sich von IMedia ab !!!!
+
+   std::vector von Schnittstellen-Zeigern
+
+b) Alternativer Ansatz:
+
+  i) Viele Medien
+
+  ii) KEINE Ableitung von einer Basisklasse
+
+======================================================
+
+Was ist Type Erasure  ???
+
+Typ löschen 
+
+Oder:
+
+Objekte an einer anderen Stelle verwalten,
+und dabei ihre Typ-Eigenschaften // Merkmale ignorieren.
+
+Template-Technik:
+
+std::any
+
+std::variant
+
+std:function
+
+// =======================================
+
+Attribute:
+
+warning C4834: discarding return value of function with [[nodiscard]] attribute
+
+
+// =======================================
+
+std::thread:   CreateThread
+
+std::async:   Möglicherweise: Abbildung auf Thread Pool
+
+
+// =======================================
+
+
+Frage:
+
+Variable: 
+
+int counter = 0;
+
+2 Funktionen:
+
+Funktion A:  Zählt counter  1000 Mal hoch.
+Funktion B:  Zählt counter  1000 Mal runter.
+
+Funktionen A und B laufen in verschiedenen Threads.
+
+Danach: Welchen Wert hat counter ??? 0
+
+
+
+
+                ++m_counter;
+00007FF6F0FB30B3  mov         rax,qword ptr [this]             Wert von Speicher in Akku
+00007FF6F0FB30BA  mov         eax,dword ptr [rax]  
+
+00007FF6F0FB30BC  inc         eax                                        ++ Operator // Wo macht der ++:  Register // Akku
+
+=====>  Thread-Wechsel :
+
+00007FF6F0FB30BE  mov         rcx,qword ptr [this]            Wert von Akku in Speicher zurück
+00007FF6F0FB30C5  mov         dword ptr [rcx],eax                          // restaurierte , veraltete Wert
+
+=========================================
+
+                --m_counter;
+00007FF6F0FB30B3  mov         rax,qword ptr [this]             Wert von Speicher in Akku
+00007FF6F0FB30BA  mov         eax,dword ptr [rax]  
+00007FF6F0FB30BC  dec         eax                                        -- Operator // Wo macht der ++:  Register // Akku
+00007FF6F0FB30BE  mov         rcx,qword ptr [this]            Wert von Akku in Speicher zurück
+00007FF6F0FB30C5  mov         dword ptr [rcx],eax  
+
+10, 11, 12,13, 14 (15) //  13, 12, 11, 10, 9, 8 // 15
+
+Allgemein:
+
+Thread-Wechsel :
+
+Was wird da alles aufgehoben // gemerkt ???
+
+a) Stack
+
+b) Register  (Stack)
+
+
+=========================================================
+
+                m_mutex.lock();
+                ++m_counter;
+                if (m_counter == 1'000)
+                    break;
+                m_mutex.unlock();
+
+
+
+
+   C++:    Idee: Smart Pointer   HÜLLENKLASSE 
+
+RAII:   Resource  Acquisition is Initialization 
+
+Hier:  std::lock_guard	
+
+Konstruktor:  .lock()
+
+Destruktor:   .unlock()
+
+// =======================================
+
+Modul - Technik:
+
+Go - for - Modules !!!
+
+Übersetzungszeit.
+
+(( pre-Compiled Header  ))
+
+// =======================================
+
+All-In of Modern C++ Concepts:
+
+Var. Templates
+
+== Lambdas
+
+
+
+
+
+
+
+
+
+
