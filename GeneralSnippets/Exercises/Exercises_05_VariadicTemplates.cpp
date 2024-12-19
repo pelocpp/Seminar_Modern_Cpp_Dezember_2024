@@ -11,26 +11,29 @@ namespace Exercises_VariadicTemplates {
         // =============================================================
         // Logical And - with variadic templates
 
-        template<typename T>
-        bool andAll(T cond) {
-            return cond;
-        }
+        //template<typename T>
+        //bool andAll(T cond) {
+        //    return cond;
+        //}
 
-        template<typename T, typename ... TRest>
-        bool andAll(T cond, TRest ... conds) {
-            return cond && andAll(conds...);
-        }
+        //template<typename T, typename ... TRest>
+        //bool andAll(T cond, TRest ... conds) {
+        //    return cond && andAll(conds...);
+        //}
 
         // or
 
-        //bool andAll() {
-        //    return true;
-        //}
-        //
-        //template<typename T, typename ... TRest>
-        //bool andAll(T cond, TRest... conds) {
-        //    return cond && andAll(conds...);
-        //}
+        template <typename T>
+        concept WantBool = std::same_as<T, bool>;
+
+
+        bool andAll() {
+            return true;
+        }
+        
+        bool andAll(WantBool auto cond, auto... conds) {
+            return cond && andAll(conds...);
+        }
 
         static void testExercise_01a() {
 
@@ -107,6 +110,9 @@ namespace Exercises_VariadicTemplates {
             // Note: short-circuit-evaluation is considered !
             // Study output of program execution
             return std::is_same<decltype(arg1), decltype(arg2)>::value && sameType(arg2, args...);
+
+            // Vorsicht: Mögliche &, const etc. sind vorher zu entfernen !!!
+            return std::is_same<T1, T2>::value&& sameType(arg2, args...);
 
             // Note: Due to order of expression evaluation short-circuit-evaluation cannot be considered !
             // Study output of program execution
@@ -358,7 +364,7 @@ namespace Exercises_VariadicTemplates {
     }
 }
 
-void test_exercises_variadic_templates()
+void test_exercises_variadic_templates() 
 {
     using namespace Exercises_VariadicTemplates;
     Exercise_01::testExercise_01();

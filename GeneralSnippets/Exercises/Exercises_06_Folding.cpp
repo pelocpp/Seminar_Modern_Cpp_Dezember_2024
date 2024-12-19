@@ -11,9 +11,16 @@ namespace Exercises_Folding {
         // =============================================================
         // Logical And - with folding expression
 
-        template<typename ... TArgs>
-        bool andAll(TArgs ... args) {
-            return (... && args);  // unary left fold
+        //template<typename ... TArgs>
+        //bool andAll(TArgs ... args) {
+        //    return (... && args);  // unary left fold
+        //}
+
+        // ((pack1 op pack2) op ...) op packN
+        // ((true && true) && ...) && false
+
+        bool andAll(auto ... args) {
+            return (... && args); 
         }
 
         static void testExercise_01a() {
@@ -21,7 +28,7 @@ namespace Exercises_Folding {
             bool result{ andAll(true, (1 > 2), true) };
             std::cout << std::boolalpha << result << std::endl;
 
-            result = andAll(true, true, true);
+            result = andAll(true, true, false, true, true, true, true, true, true);
             std::cout << std::boolalpha << result << std::endl;
         }
 
@@ -32,6 +39,7 @@ namespace Exercises_Folding {
         bool orAll(TArgs... args) {
             return (args || ...);  // unary right fold
         }
+
 
         static void testExercise_01b() {
 
@@ -56,11 +64,28 @@ namespace Exercises_Folding {
         // Beim Lösungsansatz mit variadischen Templates wird
         // das 1. mit dem 2., das 2. mit dem 3., das 3. mit dem 4. Element usw. verglichen!
 
+
+
         template<typename T, typename ... TArgs>
+        
         constexpr bool sameType(T arg, TArgs... args)
         {
+            return (std::is_same<T, TArgs>::value && ...);
+        }
+
+
+
+
+        template<typename T, typename ... TArgs>
+        constexpr bool sameTypeOriginal(T arg, TArgs... args)
+        {
             // since C++17: folding expression !
-            return (std::is_same_v<T, TArgs> && ...);
+
+            //std::is_same<T, TSecond>::value  && (...  && (std::is_same<T, TBeforeLast>::value  && std::is_same<T, TLast>::value))
+
+
+
+            return (std::is_same<T, TArgs>::value && ...);
             // or
             // return (std::is_same_v<decltype(arg), decltype(args)> && ...);
         }
@@ -365,7 +390,7 @@ namespace Exercises_Folding {
     }
 }
 
-void test_exercises_folding()
+void test_exercises_folding() 
 {
     using namespace Exercises_Folding;
     Exercise_01::testExercise_01();

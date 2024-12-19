@@ -129,7 +129,7 @@ namespace VariadicTemplatesMixins {
 
     static void test_02()
     {
-        using MyRepo = Repository<Slot<int>, Slot<std::string>>;
+        using MyRepo = Repository< Slot<int>, Slot<std::string>>;
 
         MyRepo repo{};
 

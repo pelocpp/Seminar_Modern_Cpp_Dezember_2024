@@ -900,3 +900,18 @@ Aufgaben zu Variadische Templates:
 Aufgabe 2: decltype und Type-Traits am Beispiel von sameType
 
 Vorausetzungen: std::is_same
+
+==========================================================
+
+    false     egal
+if (a > b && c > d)    // Short Circuit Evaluation
+
+
+    false     egal
+if (a > b && c > d++)    // Short Circuit Evaluation
+
+                       // Nebeneffekt
+
+=================
+
+Können wir Konzepte selber schreiben !!

@@ -11,8 +11,11 @@ void frage_events_source_and_sink();
 
 #pragma message("Collection of Modern C++-Code Examples - Copyright (C) 2019-2024 Peter Loos")
 
+extern void test_frage();
+
 int main()
 {
+    //test_frage();
     //extern int _main_modules();
     //_main_modules();
 
@@ -38,7 +41,7 @@ int main()
         //main_casts();
         //main_common_type();
         //main_concepts_requires_classes();
-        //main_concepts_requires_functions();
+        main_concepts_requires_functions();
         //main_const_variants();
         //main_constexpr();
         //main_constexpr_crc();
@@ -52,7 +55,7 @@ int main()
         //main_expression_templates();
         //main_exception_safety();
         //main_explicit_keyword();
-        main_folding();
+        //main_folding();
         //main_functional_programming_ranges();
         //main_functional_programming();
         //main_functional_programming_alternate();

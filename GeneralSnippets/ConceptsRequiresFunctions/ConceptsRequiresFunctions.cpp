@@ -4,19 +4,26 @@
 
 module modern_cpp:concepts_requires_functions;
 
-// using <concepts>
+// using <concepts>   // C++ 20
 template <typename T>
 concept Numerical = std::integral<T> || std::floating_point<T>;
 
-// using <type_traits>
+// using <type_traits>  // C++ 11  
 template <typename T>
 concept NumericalEx = std::is_integral<T>::value || std::is_floating_point<T>::value;
+
+// Nicht: std::string : s1 + s2
 
 namespace Requires_Clause {
 
     template <typename T>
-        requires Numerical<T>
+        requires NumericalEx<T>
     auto add(T a, T b)
+    {
+        return a + b;
+    }
+
+    auto add_modern(std::integral auto  a, std::integral auto b)
     {
         return a + b;
     }
@@ -41,14 +48,14 @@ namespace Requires_Clause {
         // template parameter 'T' is ambiguous
         //   could be 'float'
         //   or 'double'
-        // auto sum3 = add(123.456, 654.321F);
+        auto sum3 = add_modern(123.456, 654.321);
 
         //'add': no matching overloaded function found
         //    the associated constraints are not satisfied
         //    the concept 'Numerical<std::string>' evaluated to false
         //    the concept 'std::floating_point<std::string>' evaluated to false
         //    the concept 'std::integral<std::string>' evaluated to false
-        // auto sum4 = add(std::string { "ABC" }, std::string { "DEF" });
+        // auto sum4 = add_modern(std::string { "ABC" }, std::string { "DEF" });
     }
 
     // ---------------------------------------------------------------------------------
@@ -115,6 +122,7 @@ namespace Requires_Clause {
 namespace Trailing_Requires_Clause {
 
     template <typename T>
+       
     auto add(T a, T b) requires Numerical<T>
     {
         return a + b;  
@@ -199,7 +207,8 @@ namespace UserDefined_Concept {
 
     // using <type_traits>
     template <typename T>
-    concept GreatIntegral = std::is_integral<T>::value && isGreaterThanWord<T>;
+    concept GreatIntegral = 
+        std::integral<T> && isGreaterThanWord<T>;
 
     template<GreatIntegral T>
     T incrementByOne(const T& arg) {
@@ -217,7 +226,7 @@ namespace UserDefined_Concept {
         n = incrementByOne(n);
 
         // short s{ 1 };
-        // the associated constraints are not satisfied:
+         // the associated constraints are not satisfied:
         // s = incrementByOne(s);
 
         n = incrementByTwo(n);

@@ -162,6 +162,7 @@ namespace Exercises_Concepts {
             }
 
             template<typename T, typename ... TRest>
+                
                 requires std::same_as<T, bool> && (std::same_as<TRest, bool> && ...)
             bool andAll(T cond, TRest ... conds) {
                 return cond && andAll(conds...);
@@ -184,7 +185,9 @@ namespace Exercises_Concepts {
             // Using Folding
 
             template<typename ... TArgs>
+
                 requires (std::same_as<TArgs, bool> && ...)
+
             bool andAll(TArgs ... args) {
                 return (... && args);
             }
